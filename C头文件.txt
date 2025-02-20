@@ -22,3 +22,174 @@
 	C++ 系统文件
 	其他库的 .h 文件
 	本项目内 .h 文件
+
+
+C/C++ 预编译工具
+cpp：C/C++ 编译器自带的预处理器，它会处理源文件中的预处理指令，如 #include、#define、#ifdef 等。它将处理后的代码输出给编译器进行后续的编译工作。在使用 GCC 或 Clang 等编译器编译 C/C++ 代码时，会自动调用 cpp 进行预处理。
+GNU M4：是一个通用的宏处理器，它可以用于处理 C/C++ 等多种语言的源文件。M4 提供了丰富的宏定义和替换功能，允许用户定义复杂的文本替换规则，常用于生成代码模板、配置文件等。
+
+通用宏处理器
+CM4
+简介：CM4 是一款轻量级的宏处理器，语法和 GNU M4 较为相似。它的设计目标是提供简洁、高效的宏处理功能，能处理各类文本文件。
+特点：易于上手，运行速度快，适合处理小型项目或对性能要求较高的场景。在一些简单的脚本生成或文本替换任务中表现出色。
+
+Tcl 宏处理器
+简介：Tcl（Tool Command Language）本身是一种脚本语言，同时也具备强大的宏处理能力。它可以利用自身的变量、过程等特性实现宏替换和文本处理。
+特点：具有动态性和灵活性，支持交互式编程。Tcl 有丰富的库和工具，可用于开发复杂的宏处理程序，在自动化测试、系统管理等领域应用广泛。
+
+特定领域宏处理器
+TeX 和 LaTeX 宏处理器
+简介：TeX 是一种用于排版的标记语言，其自带强大的宏处理功能。LaTeX 则是基于 TeX 的高级排版系统，进一步扩展了宏的使用。在学术论文、书籍等文档排版中，TeX 和 LaTeX 允许用户定义自己的宏来简化复杂的排版格式。
+特点：专门针对文档排版设计，能够生成高质量的印刷品。宏可以控制字体、段落格式、图表位置等各种排版元素，使得文档排版更加规范和高效。
+
+汇编宏处理器
+简介：不同的汇编器（如 MASM 用于 x86 汇编，GAS 是 GNU 汇编器）都有自己的宏处理功能。汇编宏处理器允许程序员定义代码片段的缩写形式，提高代码的可读性和可维护性。
+特点：紧密结合汇编语言的特性，可实现代码复用和简化编程。例如，在编写复杂的汇编程序时，可以使用宏来封装常用的指令序列，减少重复代码。
+
+C 预处理器（cpp）
+简介：C 预处理器是 C 和 C++ 编译器的一部分，用于处理源代码中的预处理指令，如 #define、#include 等。它可以进行宏定义、文件包含、条件编译等操作。
+特点：与 C/C++ 语言紧密集成，为程序员提供了强大的代码生成和条件编译能力。例如，通过宏定义可以实现简单的函数或常量替换，通过条件编译可以根据不同的编译选项生成不同的代码。
+
+C 预处理器（C Preprocessor，简称 cpp）是 C 和 C++ 编译过程中的第一个阶段，它会在正式编译之前对源代码进行一系列文本替换和处理操作。以下是关于 C 预处理器的详细使用介绍：
+1. 基本概念
+作用：C 预处理器主要负责处理以 # 开头的预处理指令，这些指令可以控制代码的编译过程，如包含头文件、定义宏、进行条件编译等。
+执行时机：在编译器进行语法分析和代码生成之前执行，它会将处理后的代码传递给编译器进行后续处理。
+2. 常用预处理指令
+2.1 #define：定义宏
+语法：
+c
+#define 宏名 替换文本
+示例：
+c
+#define PI 3.14159
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+
+#include <stdio.h>
+
+int main() {
+    double radius = 5.0;
+    double area = PI * radius * radius;
+    printf("Area of the circle: %f\n", area);
+
+    int x = 10, y = 20;
+    int max_val = MAX(x, y);
+    printf("Max value: %d\n", max_val);
+
+    return 0;
+}
+解释：
+第一个 #define 定义了一个常量宏 PI，在后续代码中遇到 PI 会被替换为 3.14159。
+第二个 #define 定义了一个带参数的宏 MAX，用于比较两个数的大小并返回较大值。
+2.2 #include：包含头文件
+语法：
+c
+#include <文件名>  // 从系统指定的标准库目录中查找头文件
+#include "文件名"  // 先从当前源文件所在目录查找，若找不到再从系统标准库目录查找
+示例：
+c
+#include <stdio.h>  // 包含标准输入输出库的头文件
+#include "myheader.h"  // 包含自定义头文件
+
+int main() {
+    printf("Hello, World!\n");
+    return 0;
+}
+2.3 #ifdef、#ifndef、#endif：条件编译
+语法：
+c
+#ifdef 宏名
+    // 如果宏已定义，则编译这里的代码
+#else
+    // 否则编译这里的代码
+#endif
+
+#ifndef 宏名
+    // 如果宏未定义，则编译这里的代码
+#else
+    // 否则编译这里的代码
+#endif
+示例：
+c
+#define DEBUG
+
+#ifdef DEBUG
+    #define PRINT_DEBUG_INFO printf
+#else
+    #define PRINT_DEBUG_INFO(...) ((void)0)
+#endif
+
+#include <stdio.h>
+
+int main() {
+    PRINT_DEBUG_INFO("This is a debug message.\n");
+    return 0;
+}
+解释：
+当 DEBUG 宏被定义时，PRINT_DEBUG_INFO 会被替换为 printf，从而输出调试信息。
+当 DEBUG 宏未定义时，PRINT_DEBUG_INFO 会被替换为一个空操作，不会输出调试信息。
+2.4 #undef：取消宏定义
+语法：
+c
+#undef 宏名
+示例：
+c
+#define MAX 100
+
+// 使用 MAX 宏
+int value = MAX;
+
+#undef MAX
+
+// 此时 MAX 宏已被取消定义，不能再使用
+// int new_value = MAX;  // 这行代码会报错
+
+#include <stdio.h>
+
+int main() {
+    printf("Value: %d\n", value);
+    return 0;
+}
+3. 预定义宏
+C 预处理器还提供了一些预定义宏，这些宏在编译时自动定义，可用于获取编译环境的相关信息。
+__FILE__：表示当前源文件的文件名。
+__LINE__：表示当前代码所在的行号。
+__DATE__：表示编译日期。
+__TIME__：表示编译时间。
+示例：
+c
+#include <stdio.h>
+
+int main() {
+    printf("File: %s\n", __FILE__);
+    printf("Line: %d\n", __LINE__);
+    printf("Date: %s\n", __DATE__);
+    printf("Time: %s\n", __TIME__);
+    return 0;
+}
+4. 预处理器运算符
+#：字符串化运算符，将宏参数转换为字符串常量。
+c
+#define STRINGIFY(x) #x
+
+#include <stdio.h>
+
+int main() {
+    printf("String: %s\n", STRINGIFY(Hello));
+    return 0;
+}
+##：标记连接运算符，将两个标记连接成一个新的标记。
+c
+#define CONCAT(x, y) x##y
+
+#include <stdio.h>
+
+int main() {
+    int num12 = 123;
+    printf("Value: %d\n", CONCAT(num, 12));
+    return 0;
+}
+5. 编译时使用预处理器
+在使用 GCC 等编译器编译 C 代码时，预处理器会自动执行。也可以单独调用预处理器进行处理：
+bash
+gcc -E source.c -o source.i
+该命令会对 source.c 文件进行预处理，并将处理后的结果输出到 source.i 文件中。
